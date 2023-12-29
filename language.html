@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Language</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Create Your Language</h1>
+
+    <form id="languageForm">
+        <label for="word">Word:</label>
+        <input type="text" id="word" name="word" required>
+
+        <label for="translation">Translation:</label>
+        <textarea id="translation" name="translation" rows="4" required></textarea>
+
+        <button type="button" onclick="addWord()">Add Word</button>
+    </form>
+
+    <h2>Your Language:</h2>
+    <ul id="languageList"></ul>
+
+    <script>
+        function addWord() {
+            var word = document.getElementById('word').value;
+            var translation = document.getElementById('translation').value;
+
+            if (word && translation) {
+                var listItem = document.createElement('li');
+                listItem.textContent = word + ': ' + translation;
+
+                document.getElementById('languageList').appendChild(listItem);
+
+                // Clear the form inputs
+                document.getElementById('word').value = '';
+                document.getElementById('translation').value = '';
+            } else {
+                alert('Please enter both word and translation.');
+            }
+        }
+    </script>
+</body>
+</html>
