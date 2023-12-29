@@ -57,6 +57,8 @@
         <textarea id="translation" name="translation" rows="4" required></textarea>
 
         <button type="button" onclick="addWord()">Add Word</button>
+        <button type="button" onclick="saveLanguage()">Save Language</button>
+        <button type="button" onclick="importLanguage()">Import Language</button>
     </form>
 
     <h2>Your Language:</h2>
@@ -79,6 +81,51 @@
             } else {
                 alert('Please enter both word and translation.');
             }
+        }
+
+        function saveLanguage() {
+            var languageData = [];
+            var listItems = document.getElementById('languageList').getElementsByTagName('li');
+
+            for (var i = 0; i < listItems.length; i++) {
+                languageData.push(listItems[i].textContent);
+            }
+
+            var blob = new Blob([JSON.stringify(languageData)], { type: 'application/json' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'language.language';
+            a.click();
+        }
+
+        function importLanguage() {
+            var input = document.createElement('input');
+            input.type = 'file';
+
+            input.onchange = function () {
+                var file = input.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function () {
+                    var languageData = JSON.parse(reader.result);
+                    displayImportedData(languageData);
+                };
+
+                reader.readAsText(file);
+            };
+
+            input.click();
+        }
+
+        function displayImportedData(data) {
+            var languageList = document.getElementById('languageList');
+            languageList.innerHTML = '';
+
+            data.forEach(function (item) {
+                var listItem = document.createElement('li');
+                listItem.textContent = item;
+                languageList.appendChild(listItem);
+            });
         }
     </script>
 </body>
