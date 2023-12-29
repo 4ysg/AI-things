@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Make a Language</title>
+    <title>Create Your Language</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -118,6 +118,9 @@
     <h1>Create Your Language</h1>
 
     <form id="languageForm">
+        <label for="languageName">Language Name:</label>
+        <input type="text" id="languageName" name="languageName" required>
+
         <label for="word">Word:</label>
         <input type="text" id="word" name="word" required>
 
@@ -150,12 +153,18 @@
         }
 
         function saveLanguage() {
-            var languageData = [];
+            var languageName = document.getElementById('languageName').value;
+            if (!languageName) {
+                alert('Please enter a language name.');
+                return;
+            }
+
+            var languageData = { name: languageName, words: [] };
             var cards = document.getElementsByClassName('card');
 
             for (var i = 0; i < cards.length; i++) {
                 var cardContent = cards[i].getElementsByClassName('card-content')[0].textContent;
-                languageData.push(cardContent);
+                languageData.words.push(cardContent);
             }
 
             var blob = new Blob([JSON.stringify(languageData)], { type: 'application/json' });
@@ -188,11 +197,15 @@
             var languageList = document.getElementById('languageList');
             languageList.innerHTML = '';
 
-            data.forEach(function (item) {
-                var [word, translation] = item.split(': ');
-                var card = createCard(word, translation);
-                languageList.appendChild(card);
-            });
+            document.getElementById('languageName').value = data.name || '';
+
+            if (data.words) {
+                data.words.forEach(function (item) {
+                    var [word, translation] = item.split(': ');
+                    var card = createCard(word, translation);
+                    languageList.appendChild(card);
+                });
+            }
         }
 
         function createCard(word, translation) {
