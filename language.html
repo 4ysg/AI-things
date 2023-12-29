@@ -118,9 +118,6 @@
     <h1>Create Your Language</h1>
 
     <form id="languageForm">
-        <label for="languageName">Language Name:</label>
-        <input type="text" id="languageName" name="languageName" required>
-
         <label for="word">Word:</label>
         <input type="text" id="word" name="word" required>
 
@@ -153,18 +150,12 @@
         }
 
         function saveLanguage() {
-            var languageName = document.getElementById('languageName').value;
-            if (!languageName) {
-                alert('Please enter a language name.');
-                return;
-            }
-
-            var languageData = { name: languageName, words: [] };
+            var languageData = [];
             var cards = document.getElementsByClassName('card');
 
             for (var i = 0; i < cards.length; i++) {
                 var cardContent = cards[i].getElementsByClassName('card-content')[0].textContent;
-                languageData.words.push(cardContent);
+                languageData.push(cardContent);
             }
 
             var blob = new Blob([JSON.stringify(languageData)], { type: 'application/json' });
@@ -197,15 +188,11 @@
             var languageList = document.getElementById('languageList');
             languageList.innerHTML = '';
 
-            document.getElementById('languageName').value = data.name || '';
-
-            if (data.words) {
-                data.words.forEach(function (item) {
-                    var [word, translation] = item.split(': ');
-                    var card = createCard(word, translation);
-                    languageList.appendChild(card);
-                });
-            }
+            data.forEach(function (item) {
+                var [word, translation] = item.split(': ');
+                var card = createCard(word, translation);
+                languageList.appendChild(card);
+            });
         }
 
         function createCard(word, translation) {
