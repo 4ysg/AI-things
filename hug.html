@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hug Me Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 100px;
+    }
+
+    #hugButton {
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #hugMessage {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Hug Me Website</h1>
+
+  <button id="hugButton" onclick="giveHug()">Hug Me!</button>
+
+  <div id="hugMessage"></div>
+
+  <script>
+    function giveHug() {
+      const hugMessage = document.getElementById('hugMessage');
+      hugMessage.innerHTML = "You've been hugged! 🤗";
+    }
+  </script>
+
+</body>
+</html>
