@@ -6,25 +6,21 @@
   <title>New Year Countdown 2024</title>
   <style>
     body {
-      background-image: url('fireworks.jpg'); /* Replace with your background image */
-      background-size: cover;
-      background-position: center;
       font-family: 'Montserrat', sans-serif;
       text-align: center;
       margin: 0;
+      padding: 0;
+      color: #fff; /* White text */
+    }
+
+    #background-container {
+      background-color: #000; /* Black background for countdown and title */
       padding: 50px;
-      color: #fff;
     }
 
     h1 {
       font-size: 3em;
       margin-bottom: 20px;
-    }
-
-    #countdown {
-      font-size: 2.5em;
-      margin-bottom: 50px;
-      color: #f39c12; /* Orange color */
     }
 
     #countdown-container {
@@ -37,46 +33,24 @@
     .countdown-item {
       margin: 0 20px;
       font-size: 1.5em;
-      color: #3498db; /* Blue color */
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.2);
-      }
-      100% {
-        transform: scale(1);
-      }
-    }
-
-    #siren-button {
-      background-color: #e74c3c; /* Red color */
-      color: #fff;
-      padding: 15px 30px;
-      font-size: 1.5em;
-      border: none;
-      cursor: pointer;
-      margin-top: 20px;
-      border-radius: 5px;
-      animation: pulse 1s infinite;
     }
   </style>
 </head>
 <body>
 
-<h1>New Year Countdown 2024 (Central Time Zone)</h1>
+<div id="background-container">
+  <!-- File input for background image -->
+  <input type="file" id="backgroundInput" accept="image/*" onchange="setBackgroundImage(event)">
+  
+  <h1>New Year Countdown 2024</h1>
 
-<div id="countdown-container">
-  <div class="countdown-item" id="days">0d</div>
-  <div class="countdown-item" id="hours">0h</div>
-  <div class="countdown-item" id="minutes">0m</div>
-  <div class="countdown-item" id="seconds">0s</div>
+  <div id="countdown-container">
+    <div class="countdown-item" id="days">0d</div>
+    <div class="countdown-item" id="hours">0h</div>
+    <div class="countdown-item" id="minutes">0m</div>
+    <div class="countdown-item" id="seconds">0s</div>
+  </div>
 </div>
-
-<button id="siren-button" onclick="playSiren()">🚨 Activate Siren 🚨</button>
 
 <script>
   function updateCountdown() {
@@ -85,8 +59,8 @@
     const timeDifference = targetDate - currentTime;
 
     if (timeDifference <= 0) {
-      document.getElementById('countdown').innerHTML = 'Happy New Year!';
-      document.getElementById('siren-button').style.display = 'block';
+      document.getElementById('countdown-container').innerHTML = 'Happy New Year!';
+      playSiren();
     } else {
       const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -101,9 +75,28 @@
   }
 
   function playSiren() {
-    const audio = new Audio('siren.mp3');
-    audio.play();
-    document.getElementById('siren-button').style.display = 'none';
+    const currentTime = new Date();
+    const targetDate = new Date("January 1, 2024 00:00:00 GMT-0600"); // Central Time Zone (GMT-6)
+
+    if (currentTime >= targetDate) {
+      const audio = new Audio('siren.mp3');
+      audio.play();
+    }
+  }
+
+  function setBackgroundImage(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.body.style.backgroundImage = `url('${e.target.result}')`;
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   setInterval(updateCountdown, 1000);
