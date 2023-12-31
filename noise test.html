@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Siren</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="playButton">Play Siren</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var audio = new Audio('siren.mp3');
+            var playButton = document.getElementById('playButton');
+
+            playButton.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                    playButton.innerHTML = 'Pause Siren';
+                } else {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    playButton.innerHTML = 'Play Siren';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
