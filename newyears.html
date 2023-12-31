@@ -6,20 +6,77 @@
   <title>New Year Countdown 2024</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      background-image: url('background.jpg'); /* Replace with your background image */
+      background-size: cover;
+      background-position: center;
+      font-family: 'Montserrat', sans-serif;
       text-align: center;
-      margin: 100px;
+      margin: 0;
+      padding: 50px;
+      color: #fff;
     }
-    #countdown {
-      font-size: 2em;
+
+    h1 {
+      font-size: 3em;
       margin-bottom: 20px;
+    }
+
+    #countdown {
+      font-size: 2.5em;
+      margin-bottom: 50px;
+      color: #f39c12; /* Orange color */
+    }
+
+    #countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .countdown-item {
+      margin: 0 20px;
+      font-size: 1.5em;
+      color: #3498db; /* Blue color */
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #siren-button {
+      background-color: #e74c3c; /* Red color */
+      color: #fff;
+      padding: 15px 30px;
+      font-size: 1.5em;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+      border-radius: 5px;
+      animation: pulse 1s infinite;
     }
   </style>
 </head>
 <body>
 
 <h1>New Year Countdown 2024 (Central Time Zone)</h1>
-<div id="countdown"></div>
+
+<div id="countdown-container">
+  <div class="countdown-item" id="days">0d</div>
+  <div class="countdown-item" id="hours">0h</div>
+  <div class="countdown-item" id="minutes">0m</div>
+  <div class="countdown-item" id="seconds">0s</div>
+</div>
+
+<button id="siren-button" onclick="playSiren()">🚨 Activate Siren 🚨</button>
 
 <script>
   function updateCountdown() {
@@ -29,20 +86,24 @@
 
     if (timeDifference <= 0) {
       document.getElementById('countdown').innerHTML = 'Happy New Year!';
-      playSiren();
+      document.getElementById('siren-button').style.display = 'block';
     } else {
       const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
-      document.getElementById('countdown').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      document.getElementById('days').innerHTML = `${days}d`;
+      document.getElementById('hours').innerHTML = `${hours}h`;
+      document.getElementById('minutes').innerHTML = `${minutes}m`;
+      document.getElementById('seconds').innerHTML = `${seconds}s`;
     }
   }
 
   function playSiren() {
     const audio = new Audio('siren.mp3');
     audio.play();
+    document.getElementById('siren-button').style.display = 'none';
   }
 
   setInterval(updateCountdown, 1000);
